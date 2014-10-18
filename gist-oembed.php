@@ -25,20 +25,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
 class Gists_oEmbed {
-	public function __construct(){
+	public function __construct() {
 		add_action( 'init', array( $this, 'setup_handler' ) );
 	}
 
-	public function gist_result( $url ){
+	public function gist_result( $url ) {
 		$url = $url[0];
-		if( !preg_match( '#\.js$#i', $url ) )
+		if ( ! preg_match( '#\.js$#i', $url ) ) {
 			$url .= '.js';
-		return '<script src="' . $url . '"></script>';
+		}
+
+		return '<script src="' . esc_url( $url ) . '"></script>';
 	}
 
-	public function setup_handler(){
+	public function setup_handler() {
 		wp_embed_register_handler( 'gist', '#https?://gist.github.com/.*#i', array( $this, 'gist_result' ) );
 	}
 }
 
-$gists_oembed = new Gists_oEmbed();
+$gists_oembed = new Gists_oEmbed;
